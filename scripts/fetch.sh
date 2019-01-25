@@ -51,6 +51,13 @@ fetch_kernel () {
 	if [ ! -d $KERNEL_DIR ] ; then
 		git clone -b $KERNEL_BRANCH $KERNEL_GIT $KERNEL_DIR
 
+		echo "Patching kernel..."
+		for patch in $PATCH_DIR/kernel/*.patch; do
+			[ -e "$patch" ] || continue
+			echo "Applying $patch..."
+			patch -p1 -d $KERNEL_DIR < $patch
+		done
+
 		echo "Copying kernel config: ${CONFIGS_DIR}"
 		cp "${CONFIGS_DIR}/linux.cfg" "${KERNEL_DIR}/.config"
 
@@ -79,6 +86,18 @@ fetch_firmware () {
 	printf '\n'
 }
 
+fetch_rootfs () {
+	if [ ! -d "${DIR}/rootfs" ]; then
+		# wget
+		sudo cp ~/rootfs.tar .
+		mkdir -p rootfs
+		sudo tar xfvp rootfs.tar -C rootfs
+		sudo rm rootfs.tar
+	fi
+
+	echo "rootfs: downloaded"
+}
+
 echo $LINE
 echo "             Omaha Kernel Build Script"
 . scripts/toolchain.sh
@@ -88,4 +107,6 @@ echo $LINE
 fetch_kernel
 echo $LINE
 fetch_firmware
+echo $LINE
+fetch_rootfs
 echo $LINE

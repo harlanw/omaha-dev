@@ -1,0 +1,10 @@
+*
+
+!configs
+!patches
+!scripts
+!.gitignore
+!build.sh
+!flash.sh
+!LICENSE
+!README

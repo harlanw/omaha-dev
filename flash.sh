@@ -42,7 +42,7 @@ write_filesystem () {
 
 	# Copy root filesystem
 	mount "${DISK}1" $MNT_DIR
-	cp -p -v -r ./test/. /mnt/. # TODO: Add buildscript for rootfs
+	cp -p -v -r ./rootfs/. /mnt/. # TODO: Add buildscript for rootfs
 
 	# Boot files
 	mkdir -p "${MNT_DIR}/boot"

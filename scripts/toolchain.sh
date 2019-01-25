@@ -39,14 +39,15 @@ detect_toolchain () {
 
 	if which "${gcc_target}-gcc" &> /dev/null; then
 		gcc_path=$gcc_target
+		export CC="${gcc_target}-"
 	elif [ ! -d "${GCC_DIR}" ] ; then
 		fetch_toolchain
 		gcc_path="${GCC_DIR}/${gcc_filename}/bin"
+		export CC="${gcc_path}/${gcc_target}-"
 	else
 		gcc_path="${GCC_DIR}/${gcc_filename}/bin"
+		export CC="${gcc_path}/${gcc_target}-"
 	fi
-
-	export CC="${gcc_path}/${gcc_target}-"
 
 	if [ "$SILENT" = false ]; then
 		echo "ARM Toolchain: $gcc_target"

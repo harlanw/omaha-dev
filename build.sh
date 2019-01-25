@@ -50,6 +50,8 @@ build_kernel () {
 	# Kernel
 	make $KERNEL_MKFLAGS zImage
 	{
+		# FIXME: Improve this
+		. scripts/version.sh
 		cp -v "${KERNEL_DIR}/arch/arm/boot/zImage" "${DIST_DIR}/vmlinuz-${KERNEL_VERSION}"
 	}
 
@@ -63,6 +65,7 @@ build_kernel () {
 	}
 
 	# Device Tree
+	make $KERNEL_MKFLAGS am335x-pocketbeagle.dtb
 	cp -v "${KERNEL_DIR}/arch/arm/boot/dts/am335x-pocketbeagle.dtb" "${DIST_DIR}/"
 }
 
@@ -83,6 +86,6 @@ fi
 
 mkdir -p $DIST_DIR
 
-build_uboot
 build_kernel
+build_uboot
 build_firmware
